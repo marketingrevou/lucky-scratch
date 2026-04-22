@@ -3,14 +3,20 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 
 async function sendToGoogleSheets(name: string, email: string, prize: string) {
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-  if (!webhookUrl) return;
+  if (!webhookUrl) {
+    console.error("Google Sheets: GOOGLE_SHEETS_WEBHOOK_URL not set");
+    return;
+  }
 
   try {
-    await fetch(webhookUrl, {
+    const res = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, prize }),
+      redirect: "follow",
     });
+    const text = await res.text();
+    console.log("Google Sheets response:", res.status, res.url, text);
   } catch (err) {
     console.error("Google Sheets webhook error:", err);
   }
@@ -34,7 +40,7 @@ export async function POST(req: NextRequest) {
   const cleanPrize = prize.trim();
 
   const [{ error }] = await Promise.all([
-    getSupabaseAdmin().from("game_results").insert({
+    getSupabaseAdmin().from("lucky_card_results").insert({
       name: cleanName,
       email: cleanEmail,
       prize: cleanPrize,

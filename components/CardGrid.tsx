@@ -12,10 +12,10 @@ export default function CardGrid({ selectedIndex, onSelect }: Props) {
   const isLocked = selectedIndex !== null;
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full">
-      {/* Row 1: 3 cards */}
-      <div className="flex gap-4 justify-center flex-wrap">
-        {[0, 1, 2].map((i) => (
+    <div className="w-full">
+      {/* Desktop: single row of 5 */}
+      <div className="hidden md:flex gap-4 justify-center">
+        {[0, 1, 2, 3, 4].map((i) => (
           <Card
             key={i}
             index={i}
@@ -26,17 +26,30 @@ export default function CardGrid({ selectedIndex, onSelect }: Props) {
         ))}
       </div>
 
-      {/* Row 2: 2 cards centered */}
-      <div className="flex gap-4 justify-center flex-wrap">
-        {[3, 4].map((i) => (
-          <Card
-            key={i}
-            index={i}
-            isSelected={selectedIndex === i}
-            isLocked={isLocked && selectedIndex !== i}
-            onClick={() => onSelect(i)}
-          />
-        ))}
+      {/* Mobile: 3 + 2 rows */}
+      <div className="flex flex-col items-center gap-4 md:hidden">
+        <div className="flex gap-4 justify-center">
+          {[0, 1, 2].map((i) => (
+            <Card
+              key={i}
+              index={i}
+              isSelected={selectedIndex === i}
+              isLocked={isLocked && selectedIndex !== i}
+              onClick={() => onSelect(i)}
+            />
+          ))}
+        </div>
+        <div className="flex gap-4 justify-center">
+          {[3, 4].map((i) => (
+            <Card
+              key={i}
+              index={i}
+              isSelected={selectedIndex === i}
+              isLocked={isLocked && selectedIndex !== i}
+              onClick={() => onSelect(i)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
