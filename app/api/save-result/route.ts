@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 async function sendToGoogleSheets(name: string, email: string, prize: string) {
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   const cleanPrize = prize.trim();
 
   const [{ error }] = await Promise.all([
-    supabaseAdmin.from("game_results").insert({
+    getSupabaseAdmin().from("game_results").insert({
       name: cleanName,
       email: cleanEmail,
       prize: cleanPrize,
