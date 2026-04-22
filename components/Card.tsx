@@ -7,6 +7,7 @@ type Props = {
   isSelected: boolean;
   isLocked: boolean;
   onClick: () => void;
+  stackOffset?: { x: number; rotate: number; zIndex: number };
 };
 
 const ENTRY_ORIGINS = [
@@ -17,17 +18,18 @@ const ENTRY_ORIGINS = [
   { x: 300, y: 300 },
 ];
 
-export default function Card({ index, isSelected, isLocked, onClick }: Props) {
+export default function Card({ index, isSelected, isLocked, onClick, stackOffset }: Props) {
   const origin = ENTRY_ORIGINS[index] ?? { x: 0, y: -300 };
 
   return (
     <motion.div
-      initial={{ x: origin.x, y: origin.y, opacity: 0, scale: 0.6 }}
+      initial={{ x: origin.x, y: origin.y, opacity: 0, scale: 0.6, rotate: stackOffset?.rotate ?? 0 }}
       animate={{
         x: 0,
         y: 0,
         opacity: isLocked && !isSelected ? 0.3 : 1,
         scale: isSelected ? 1.08 : isLocked ? 0.95 : 1,
+        rotate: isSelected ? 0 : (stackOffset?.rotate ?? 0),
       }}
       transition={{
         type: "spring",
@@ -43,6 +45,7 @@ export default function Card({ index, isSelected, isLocked, onClick }: Props) {
       style={{
         pointerEvents: isLocked && !isSelected ? "none" : "auto",
         filter: isLocked && !isSelected ? "grayscale(1)" : "none",
+        ...(stackOffset ? { position: "absolute", left: stackOffset.x, zIndex: stackOffset.zIndex } : {}),
       }}
     >
 <div

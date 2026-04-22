@@ -35,12 +35,12 @@ function drawGoldFoil(ctx: CanvasRenderingContext2D, w: number, h: number) {
   ctx.globalAlpha = 1;
 
   // "GOSOK DI SINI" text
-  ctx.font = "bold 20px 'Kalam', cursive";
+  ctx.font = "bold 20px 'Red Hat Display', sans-serif";
   ctx.fillStyle = "rgba(255,255,255,0.9)";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("🤫 GOSOK DI SINI", w / 2, h / 2 - 10);
-  ctx.font = "13px 'Kalam', cursive";
+  ctx.font = "13px 'Red Hat Display', sans-serif";
   ctx.fillStyle = "rgba(255,255,255,0.65)";
   ctx.fillText("hadiah menantimu...", w / 2, h / 2 + 16);
 }
@@ -67,6 +67,7 @@ export default function ScratchCard({ prize, onRevealed }: Props) {
 
     const w = canvas.width;
     const h = canvas.height;
+
     ctx.clearRect(0, 0, w, h);
     drawGoldFoil(ctx, w, h);
   }, []);
