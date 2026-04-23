@@ -66,21 +66,22 @@ body {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Floating star decorations */
-.star-float {
+/* Floating coin decorations */
+.coin-float {
   position: absolute;
   pointer-events: none;
   z-index: 1;
-  animation: star-float 5s ease-in-out infinite;
-  font-size: 1.5rem;
+  animation: coin-float 5s ease-in-out infinite;
   opacity: 0;
+  width: 56px;
+  height: 56px;
 }
 
-@keyframes star-float {
-  0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
-  15%  { opacity: 0.8; }
-  85%  { opacity: 0.8; }
-  100% { transform: translateY(-90px) rotate(180deg); opacity: 0; }
+@keyframes coin-float {
+  0%   { transform: translateY(0);      opacity: 0; }
+  15%  { opacity: 0.9; }
+  85%  { opacity: 0.9; }
+  100% { transform: translateY(-100px); opacity: 0; }
 }
 
 /* CTA button pulse glow */

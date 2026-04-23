@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import UserInfoForm from "@/components/UserInfoForm";
@@ -66,15 +67,25 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
 
   return (
     <main className="sunburst-bg min-h-screen flex flex-col items-center justify-center px-4 py-12">
-      {/* Floating star decorations */}
-      <span className="star-float" style={{ top: "8%", left: "6%", animationDelay: "0s" }}>✨</span>
-      <span className="star-float" style={{ top: "15%", right: "7%", animationDelay: "0.8s" }}>⭐</span>
-      <span className="star-float" style={{ top: "55%", left: "3%", animationDelay: "1.6s" }}>🌟</span>
-      <span className="star-float" style={{ top: "70%", right: "5%", animationDelay: "0.4s" }}>✨</span>
-      <span className="star-float" style={{ top: "80%", left: "25%", animationDelay: "1.2s" }}>🌟</span>
-      <span className="star-float" style={{ top: "40%", right: "2%", animationDelay: "2.4s" }}>✨</span>
-      <span className="star-float" style={{ top: "88%", right: "20%", animationDelay: "0.6s" }}>⭐</span>
-      <span className="star-float" style={{ top: "30%", left: "2%", animationDelay: "2.0s" }}>🌟</span>
+      {/* Floating coin decorations */}
+      {[
+        { top: "8%",  left:  "6%",   delay: "0s"   },
+        { top: "15%", right: "7%",   delay: "0.8s" },
+        { top: "55%", left:  "3%",   delay: "1.6s" },
+        { top: "70%", right: "5%",   delay: "0.4s" },
+        { top: "80%", left:  "25%",  delay: "1.2s" },
+        { top: "40%", right: "2%",   delay: "2.4s" },
+        { top: "88%", right: "20%",  delay: "0.6s" },
+        { top: "30%", left:  "2%",   delay: "2.0s" },
+      ].map((pos, i) => (
+        <div key={i} className="coin-float" style={{ top: pos.top, left: pos.left, right: pos.right, animationDelay: pos.delay }}>
+          <DotLottieReact
+            src="https://lottie.host/faf84856-83c2-41b1-bb75-4079ed03bd33/1x1cudw5Lq.lottie"
+            loop
+            autoplay
+          />
+        </div>
+      ))}
 
       <AnimatePresence mode="wait">
         {stage === "form" && (
