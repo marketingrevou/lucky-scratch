@@ -27,7 +27,7 @@ body {
 .sunburst-bg {
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  height: 100dvh;
   background: #fede3e;
 }
 

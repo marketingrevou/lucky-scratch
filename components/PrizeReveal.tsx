@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useGameSounds } from "@/hooks/useGameSounds";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Prize } from "@/lib/prizes";
@@ -23,6 +24,9 @@ const STAR_BURST = [
 export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
   const firedRef = useRef(false);
   const [showCard, setShowCard] = useState(false);
+  const { playCongrats, playCelebration } = useGameSounds();
+
+  useEffect(() => { playCongrats(); }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setShowCard(true), 2200);
@@ -33,6 +37,8 @@ export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
     if (!showCard) return;
     if (firedRef.current) return;
     firedRef.current = true;
+
+    playCelebration();
 
     import("canvas-confetti").then(({ default: confetti }) => {
       const colors = ["#fede3e", "#fcb031", "#FFFFFF", "#1e3a8a"];
@@ -86,7 +92,7 @@ export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
         >
         {/* Celebration card — matches form panel */}
         <div
-          className="rounded-3xl px-8 py-10 w-full"
+          className="rounded-3xl px-6 py-6 w-full"
           style={{
             background: "#1e3a8a",
             border: "3px solid #fede3e",
@@ -94,7 +100,7 @@ export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
           }}
         >
           {/* Prize emoji + star burst */}
-          <div className="relative flex justify-center mb-4">
+          <div className="relative flex justify-center mb-2">
             {STAR_BURST.map((s, i) => (
               <span
                 key={i}
@@ -124,7 +130,7 @@ export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
             {prize.label}
           </motion.h2>
 
-          <p className="text-sm text-white/60 mb-6">{prize.description}</p>
+          <p className="text-sm text-white/60 mb-4">{prize.description}</p>
 
           <div
             className="rounded-xl px-4 py-3 text-sm font-bold text-[#2D3436]"

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
 type Props = {
   onSubmit: (name: string, email: string) => void;
+  onEnter?: () => void;
 };
 
 // Using named variants avoids the keyframe-array → single-value reset bug in framer-motion.
@@ -17,7 +18,7 @@ const titleVariants = {
   settled: { scale: 0.78, opacity: 1 },
 };
 
-export default function UserInfoForm({ onSubmit }: Props) {
+export default function UserInfoForm({ onSubmit, onEnter }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
@@ -26,6 +27,8 @@ export default function UserInfoForm({ onSubmit }: Props) {
   // "visible"  → form fades in
   const [phase, setPhase] = useState<"entered" | "moving" | "visible">("entered");
   const phaseFired = useRef(false);
+
+  useEffect(() => { onEnter?.(); }, []);
 
   function validate() {
     const errs: { name?: string; email?: string } = {};
@@ -93,13 +96,13 @@ export default function UserInfoForm({ onSubmit }: Props) {
           animate={{ opacity: phase === "visible" ? 1 : 0, y: phase === "visible" ? 0 : 20 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <p className="mt-3 mb-8 text-base md:text-lg text-[#2D3436] font-bold text-center">
+          <p className="mt-2 mb-4 text-base md:text-lg text-[#2D3436] font-bold text-center">
             Gosok kartu &amp; temukan kejutan gajianmu 🎁
           </p>
 
           {/* Form card — dark game panel */}
           <div
-            className="rounded-3xl p-8"
+            className="rounded-3xl p-6"
             style={{
               background: "#1e3a8a",
               border: "3px solid #fede3e",
@@ -159,7 +162,7 @@ export default function UserInfoForm({ onSubmit }: Props) {
           </div>
 
           {/* RevoU logo */}
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-4">
             <Image src="/revou-logo.webp" alt="RevoU" width={80} height={80} className="h-10 w-auto drop-shadow" />
           </div>
         </motion.div>

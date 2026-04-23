@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { useGameSounds } from "@/hooks/useGameSounds";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -28,14 +29,26 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
   const [prize, setPrize] = useState<Prize | null>(null);
   const revealedRef = useRef(false);
 
+  const {
+    startTheme, stopTheme,
+    playTitleEntrance, playEntrance,
+    playCardSelect,
+    startScratch, stopScratch,
+    playReveal,
+    playPlayAgain,
+  } = useGameSounds();
+
   function handleFormSubmit(name: string, email: string) {
     setUserName(name);
     setUserEmail(email);
     setStage("cards");
+    startTheme();
+    playEntrance();
   }
 
   function handleCardSelect(index: number) {
     if (selectedCard !== null) return;
+    playCardSelect();
     const won = pickPrize(variant);
     setPrize(won);
     setSelectedCard(index);
@@ -45,6 +58,7 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
   const handleRevealed = useCallback(async () => {
     if (!prize || revealedRef.current) return;
     revealedRef.current = true;
+    playReveal();
     setStage("reveal");
 
     try {
@@ -56,17 +70,20 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
     } catch {
       // non-blocking — game already revealed
     }
-  }, [prize, userName, userEmail]);
+  }, [prize, userName, userEmail, playReveal]);
 
   function handlePlayAgain() {
+    stopTheme();
+    playPlayAgain();
     revealedRef.current = false;
     setStage("form");
     setSelectedCard(null);
     setPrize(null);
+    startTheme();
   }
 
   return (
-    <main className="sunburst-bg min-h-screen flex flex-col items-center justify-center px-4 py-12">
+    <main className="sunburst-bg h-dvh flex flex-col items-center justify-center px-4 py-4 overflow-hidden">
       {/* Floating coin decorations */}
       {[
         { top: "8%",  left:  "6%",   delay: "0s"   },
@@ -97,7 +114,7 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
             transition={{ duration: 0.3 }}
             className="w-full flex flex-col items-center"
           >
-            <UserInfoForm onSubmit={handleFormSubmit} />
+            <UserInfoForm onSubmit={handleFormSubmit} onEnter={playTitleEntrance} />
           </motion.div>
         )}
 
@@ -108,22 +125,22 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="w-full flex flex-col items-center gap-6"
+            className="w-full flex flex-col items-center gap-3"
           >
-            <div className="text-center mb-2">
+            <div className="text-center">
               <Image
                 src="/pilihkartu-mb.webp"
                 alt="Pilih Kartumu"
                 width={600}
                 height={300}
                 className="mx-auto w-full"
-                style={{ maxWidth: "300px" }}
+                style={{ maxWidth: "220px" }}
               />
             </div>
 
             <CardGrid selectedIndex={selectedCard} onSelect={handleCardSelect} />
 
-            <div className="mt-4 opacity-60">
+            <div className="opacity-60">
               <Image src="/revou-logo.webp" alt="RevoU" width={80} height={80} className="h-8 w-auto" />
             </div>
           </motion.div>
@@ -147,7 +164,7 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
               style={{ maxWidth: "300px" }}
             />
 
-            <ScratchCard prize={prize} onRevealed={handleRevealed} />
+            <ScratchCard prize={prize} onRevealed={handleRevealed} onScratchStart={startScratch} onScratchStop={stopScratch} />
           </motion.div>
         )}
 

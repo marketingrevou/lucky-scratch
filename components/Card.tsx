@@ -50,7 +50,7 @@ export default function Card({ index, isSelected, isLocked, onClick, stackOffset
       }}
     >
 <div
-        className="relative w-[140px] h-[190px] md:w-[160px] md:h-[220px] rounded-3xl overflow-hidden transition-all"
+        className="relative w-[120px] h-[160px] md:w-[160px] md:h-[220px] rounded-3xl overflow-hidden transition-all"
         style={{
           boxShadow: isSelected ? "0 0 28px 6px rgba(254,222,62,0.5)" : "none",
         }}

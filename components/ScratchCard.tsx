@@ -6,6 +6,8 @@ import { Prize } from "@/lib/prizes";
 type Props = {
   prize: Prize;
   onRevealed: () => void;
+  onScratchStart?: () => void;
+  onScratchStop?: () => void;
 };
 
 const REVEAL_THRESHOLD = 0.8;
@@ -54,7 +56,7 @@ function getErasedPercent(ctx: CanvasRenderingContext2D, w: number, h: number): 
   return transparent / (w * h);
 }
 
-export default function ScratchCard({ prize, onRevealed }: Props) {
+export default function ScratchCard({ prize, onRevealed, onScratchStart, onScratchStop }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isScratching = useRef(false);
   const rafPending = useRef(false);
@@ -106,6 +108,7 @@ export default function ScratchCard({ prize, onRevealed }: Props) {
             cx2d.clearRect(0, 0, c.width, c.height);
             setRevealed(true);
             isScratching.current = false;
+            onScratchStop?.();
             onRevealed();
           }
         });
@@ -115,14 +118,14 @@ export default function ScratchCard({ prize, onRevealed }: Props) {
   );
 
   // Mouse events
-  const onMouseDown = (e: React.MouseEvent) => { isScratching.current = true; scratch(e.clientX, e.clientY); };
+  const onMouseDown = (e: React.MouseEvent) => { isScratching.current = true; onScratchStart?.(); scratch(e.clientX, e.clientY); };
   const onMouseMove = (e: React.MouseEvent) => { if (isScratching.current) scratch(e.clientX, e.clientY); };
-  const onMouseUp = () => { isScratching.current = false; };
+  const onMouseUp = () => { isScratching.current = false; onScratchStop?.(); };
 
   // Touch events
-  const onTouchStart = (e: React.TouchEvent) => { e.preventDefault(); isScratching.current = true; scratch(e.touches[0].clientX, e.touches[0].clientY); };
+  const onTouchStart = (e: React.TouchEvent) => { e.preventDefault(); isScratching.current = true; onScratchStart?.(); scratch(e.touches[0].clientX, e.touches[0].clientY); };
   const onTouchMove = (e: React.TouchEvent) => { e.preventDefault(); if (isScratching.current) scratch(e.touches[0].clientX, e.touches[0].clientY); };
-  const onTouchEnd = () => { isScratching.current = false; };
+  const onTouchEnd = () => { isScratching.current = false; onScratchStop?.(); };
 
   return (
     <div className="relative w-[280px] h-[180px] md:w-[320px] md:h-[200px] rounded-2xl overflow-hidden"

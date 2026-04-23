@@ -27,9 +27,9 @@ export default function CardGrid({ selectedIndex, onSelect }: Props) {
       </div>
 
       {/* Mobile: stacked rows */}
-      <div className="flex flex-col items-center gap-8 md:hidden">
+      <div className="flex flex-col items-center gap-3 md:hidden">
         {/* Row 1: 3 cards stacked */}
-        <div className="relative" style={{ width: 210, height: 220 }}>
+        <div className="relative" style={{ width: 190, height: 175 }}>
           {([
             { i: 0, x: 0,  rotate: -8, zIndex: 1 },
             { i: 1, x: 35, rotate: -3, zIndex: 2 },
@@ -47,7 +47,7 @@ export default function CardGrid({ selectedIndex, onSelect }: Props) {
         </div>
 
         {/* Row 2: 2 cards stacked */}
-        <div className="relative" style={{ width: 175, height: 220 }}>
+        <div className="relative" style={{ width: 155, height: 175 }}>
           {([
             { i: 3, x: 0,  rotate: -5, zIndex: 1 },
             { i: 4, x: 35, rotate:  0, zIndex: 2 },

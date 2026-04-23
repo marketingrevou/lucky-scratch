@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="h-full">
+    <html lang="id" className="h-full overflow-hidden">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -30,7 +30,7 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body className="min-h-full">{children}</body>
+      <body className="h-full overflow-hidden">{children}</body>
     </html>
   );
 }
