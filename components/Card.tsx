@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 type Props = {
   index: number;
@@ -54,11 +55,12 @@ export default function Card({ index, isSelected, isLocked, onClick, stackOffset
           boxShadow: isSelected ? "0 0 28px 6px rgba(254,222,62,0.5)" : "none",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/cardback.png"
+        <Image
+          src="/cardback.webp"
           alt="Lucky Card"
-          className="w-full h-full object-cover"
+          fill
+          sizes="160px"
+          className="object-cover"
         />
       </div>
     </motion.div>

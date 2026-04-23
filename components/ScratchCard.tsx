@@ -57,6 +57,7 @@ function getErasedPercent(ctx: CanvasRenderingContext2D, w: number, h: number): 
 export default function ScratchCard({ prize, onRevealed }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isScratching = useRef(false);
+  const rafPending = useRef(false);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
@@ -91,12 +92,23 @@ export default function ScratchCard({ prize, onRevealed }: Props) {
       ctx.fill();
       ctx.globalCompositeOperation = "source-over";
 
-      const percent = getErasedPercent(ctx, canvas.width, canvas.height);
-      if (percent >= REVEAL_THRESHOLD) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setRevealed(true);
-        isScratching.current = false;
-        onRevealed();
+      // Defer the expensive GPU readback to once per animation frame
+      if (!rafPending.current) {
+        rafPending.current = true;
+        requestAnimationFrame(() => {
+          rafPending.current = false;
+          const c = canvasRef.current;
+          if (!c) return;
+          const cx2d = c.getContext("2d");
+          if (!cx2d) return;
+          const percent = getErasedPercent(cx2d, c.width, c.height);
+          if (percent >= REVEAL_THRESHOLD) {
+            cx2d.clearRect(0, 0, c.width, c.height);
+            setRevealed(true);
+            isScratching.current = false;
+            onRevealed();
+          }
+        });
       }
     },
     [revealed, onRevealed]

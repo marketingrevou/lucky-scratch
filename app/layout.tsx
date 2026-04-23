@@ -13,6 +13,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="h-full">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&display=swap"
+          media="print"
+          // @ts-expect-error onLoad is valid for non-blocking font swap
+          onLoad="this.media='all'"
+        />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&display=swap"
+          />
+        </noscript>
+      </head>
       <body className="min-h-full">{children}</body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Prize } from "@/lib/prizes";
 
 type Props = {
@@ -56,16 +57,23 @@ export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.img
-            src="/prize.png"
-            alt="You're Lucky!"
+          <motion.div
             initial={{ scale: 0.4, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 1.2, opacity: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 14 }}
             className="w-full"
             style={{ maxWidth: "380px" }}
-          />
+          >
+            <Image
+              src="/prize.webp"
+              alt="You're Lucky!"
+              width={760}
+              height={380}
+              priority
+              className="w-full h-auto"
+            />
+          </motion.div>
         </motion.div>
       ) : (
 

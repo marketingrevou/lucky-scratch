@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 type Props = {
   onSubmit: (name: string, email: string) => void;
@@ -69,14 +70,16 @@ export default function UserInfoForm({ onSubmit }: Props) {
           // Only act on the initial pop-in completing, not on subsequent animations
           if (def !== "entered" || phaseFired.current) return;
           phaseFired.current = true;
-          setTimeout(() => setPhase("moving"), 1500);   // stay 1.5s then move
-          setTimeout(() => setPhase("visible"), 2200);  // form fades in 700ms into the move
+          setTimeout(() => setPhase("moving"), 700);    // stay 0.7s then move
+          setTimeout(() => setPhase("visible"), 1400);  // form fades in 700ms into the move
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/lucky-scratch-title.png"
+        <Image
+          src="/lucky-scratch-title.webp"
           alt="Lucky Scratch!"
+          width={600}
+          height={300}
+          priority
           className="mx-auto w-full"
           style={{ maxWidth: "300px" }}
         />
@@ -143,19 +146,21 @@ export default function UserInfoForm({ onSubmit }: Props) {
               {/* CTA */}
               <button
                 type="submit"
-                className="mt-2 w-full py-4 rounded-xl text-white font-black text-lg uppercase tracking-wide btn-pulse
+                className="mt-2 w-full py-4 rounded-xl font-black text-lg uppercase tracking-wide btn-pulse
                   transition-transform active:translate-y-1 hover:brightness-110"
-                style={{ background: "linear-gradient(135deg, #1e3a8a, #fcb031)" }}
+                style={{
+                  background: "linear-gradient(135deg, #fcb031, #fede3e)",
+                  color: "#1e3a8a",
+                }}
               >
-                Ambil Hadiahku 🎁
+                Mulai 🎁
               </button>
             </form>
           </div>
 
           {/* RevoU logo */}
           <div className="flex justify-center mt-8">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/revou-logo.png" alt="RevoU" className="h-10 drop-shadow" />
+            <Image src="/revou-logo.webp" alt="RevoU" width={80} height={80} className="h-10 w-auto drop-shadow" />
           </div>
         </motion.div>
       )}

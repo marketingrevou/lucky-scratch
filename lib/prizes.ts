@@ -32,3 +32,29 @@ export function selectPrize(): Prize {
   if (r < 0.75) return PRIZES[1];
   return PRIZES[2];
 }
+
+export const SWE_PRIZES: Prize[] = [
+  {
+    id: "swe-refund",
+    label: "Jaminan Refund Rp3,000,000",
+    emoji: "💰",
+    description: "Garansi refund jika tidak puas dengan program!",
+  },
+  {
+    id: "swe-refund-full",
+    label: "Jaminan Refund Rp3,000,000 + AI video learning + Starter Kit",
+    emoji: "🏆",
+    description: "Paket lengkap: refund, belajar AI, dan perlengkapan belajar!",
+  },
+  {
+    id: "swe-refund-ai",
+    label: "Jaminan Refund Rp3,000,000 + AI video learning",
+    emoji: "🤖",
+    description: "Refund garansi plus akses belajar AI gratis!",
+  },
+];
+
+export function selectSWEPrize(): Prize {
+  const idx = Math.floor(Math.random() * SWE_PRIZES.length);
+  return SWE_PRIZES[idx];
+}
