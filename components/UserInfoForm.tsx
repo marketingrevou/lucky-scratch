@@ -96,10 +96,6 @@ export default function UserInfoForm({ onSubmit, onEnter }: Props) {
           animate={{ opacity: phase === "visible" ? 1 : 0, y: phase === "visible" ? 0 : 20 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <p className="mt-2 mb-4 text-base md:text-lg text-[#2D3436] font-bold text-center">
-            Gosok kartu &amp; temukan kejutan gajianmu 🎁
-          </p>
-
           {/* Form card — dark game panel */}
           <div
             className="rounded-3xl p-6"
@@ -109,6 +105,9 @@ export default function UserInfoForm({ onSubmit, onEnter }: Props) {
               boxShadow: "0 0 28px rgba(254,222,62,0.35), 0 10px 40px rgba(15,29,94,0.5)",
             }}
           >
+            <p className="mb-4 text-base md:text-lg text-white font-bold text-center">
+              Gosok kartu &amp; temukan kejutan gajianmu 🎁
+            </p>
             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
               {/* Name */}
               <div className="flex flex-col gap-1">
@@ -156,7 +155,7 @@ export default function UserInfoForm({ onSubmit, onEnter }: Props) {
                   color: "#1e3a8a",
                 }}
               >
-                Mulai 🎁
+                Pilih Kartu Sekarang
               </button>
             </form>
           </div>
