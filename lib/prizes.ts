@@ -3,58 +3,75 @@ export type Prize = {
   label: string;
   emoji: string;
   description: string;
+  /** Relative chance of being drawn, expressed in percent. 0 = disabled. */
+  weight: number;
 };
 
 export const PRIZES: Prize[] = [
   {
-    id: "full",
-    label: "BNSP + AI Free Learning + Starter Kit",
-    emoji: "🏆",
-    description: "Paket lengkap untuk karier tech-mu!",
+    id: "ai",
+    label: "AI Free Learning + Starter Kit",
+    emoji: "🤖",
+    description: "Belajar AI gratis + perlengkapan belajar",
+    weight: 50,
   },
   {
     id: "bnsp",
     label: "BNSP + Starter Kit",
     emoji: "🎓",
     description: "Sertifikasi nasional + perlengkapan belajar",
+    weight: 30,
   },
   {
-    id: "ai",
-    label: "AI Free Learning + Starter Kit",
-    emoji: "🤖",
-    description: "Belajar AI gratis + perlengkapan belajar",
+    id: "full",
+    label: "BNSP + AI Free Learning + Starter Kit",
+    emoji: "🏆",
+    description: "Paket lengkap untuk karier tech-mu!",
+    weight: 20,
   },
 ];
-
-export function selectPrize(): Prize {
-  const r = Math.random();
-  if (r < 0.5) return PRIZES[0];
-  if (r < 0.75) return PRIZES[1];
-  return PRIZES[2];
-}
 
 export const SWE_PRIZES: Prize[] = [
   {
-    id: "swe-refund",
-    label: "Jaminan Refund Rp3,000,000",
-    emoji: "💰",
-    description: "Garansi refund jika tidak puas dengan program!",
-  },
-  {
-    id: "swe-refund-full",
-    label: "Jaminan Refund Rp3,000,000 + AI video learning + Starter Kit",
+    id: "swe-diskon-2jt",
+    label: "Diskon Rp 2.000.000",
     emoji: "🏆",
-    description: "Paket lengkap: refund, belajar AI, dan perlengkapan belajar!",
+    description: "Potongan terbesar untuk program Software Engineering!",
+    weight: 5,
   },
   {
-    id: "swe-refund-ai",
-    label: "Jaminan Refund Rp3,000,000 + AI video learning",
-    emoji: "🤖",
-    description: "Refund garansi plus akses belajar AI gratis!",
+    id: "swe-diskon-1500rb",
+    label: "Diskon Rp 1.500.000",
+    emoji: "💰",
+    description: "Potongan biaya program Software Engineering",
+    weight: 95,
+  },
+  {
+    id: "swe-diskon-1jt",
+    label: "Diskon Rp 1.000.000",
+    emoji: "🎟️",
+    description: "Potongan biaya program Software Engineering",
+    weight: 0,
   },
 ];
 
+function pickWeighted(prizes: Prize[]): Prize {
+  const eligible = prizes.filter((p) => p.weight > 0);
+  const pool = eligible.length > 0 ? eligible : prizes;
+  const total = pool.reduce((sum, p) => sum + p.weight, 0);
+
+  let r = Math.random() * total;
+  for (const prize of pool) {
+    r -= prize.weight;
+    if (r < 0) return prize;
+  }
+  return pool[pool.length - 1];
+}
+
+export function selectPrize(): Prize {
+  return pickWeighted(PRIZES);
+}
+
 export function selectSWEPrize(): Prize {
-  const idx = Math.floor(Math.random() * SWE_PRIZES.length);
-  return SWE_PRIZES[idx];
+  return pickWeighted(SWE_PRIZES);
 }
