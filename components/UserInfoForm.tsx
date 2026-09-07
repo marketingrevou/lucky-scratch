@@ -106,7 +106,7 @@ export default function UserInfoForm({ onSubmit, onEnter }: Props) {
             }}
           >
             <p className="mb-4 text-base md:text-lg text-white font-bold text-center">
-              Gosok kartunya, ambil hadiahnya, dan rayakan hari gajianmu 🎉!
+              Gosok kartunya, ambil hadiahnya🎉!
             </p>
             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
               {/* Name */}
