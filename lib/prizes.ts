@@ -8,6 +8,8 @@ export type Prize = {
   /** Program price before/after discount, shown as a strikethrough → final price. */
   originalPrice?: string;
   finalPrice?: string;
+  /** Program code prefixed to the label when saving, so submissions can be told apart. */
+  program?: string;
 };
 
 export const PRIZES: Prize[] = [
@@ -37,6 +39,7 @@ export const PRIZES: Prize[] = [
 export const DA_PRIZES: Prize[] = [
   {
     id: "da-diskon-4jt",
+    program: "DA",
     label: "Diskon Rp 4.000.000",
     emoji: "🏆",
     description: "Potongan biaya program Data Analytics",
@@ -49,6 +52,7 @@ export const DA_PRIZES: Prize[] = [
 export const DM_PRIZES: Prize[] = [
   {
     id: "dm-diskon-4jt",
+    program: "DM",
     label: "Diskon Rp 4.000.000",
     emoji: "🏆",
     description: "Potongan biaya program Digital Marketing",
@@ -61,6 +65,7 @@ export const DM_PRIZES: Prize[] = [
 export const SWE_PRIZES: Prize[] = [
   {
     id: "swe-diskon-5500rb",
+    program: "SWE",
     label: "Diskon Rp 5.500.000",
     emoji: "🏆",
     description: "Potongan biaya program Software Engineering",

@@ -61,7 +61,11 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
       await fetch("/api/save-result", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: userName, email: userEmail, prize: prize.label }),
+        body: JSON.stringify({
+          name: userName,
+          email: userEmail,
+          prize: prize.program ? `${prize.program} - ${prize.label}` : prize.label,
+        }),
       });
     } catch {
       // non-blocking — game already revealed
