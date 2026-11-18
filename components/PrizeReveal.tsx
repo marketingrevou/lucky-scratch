@@ -132,6 +132,18 @@ export default function PrizeReveal({ prize, userName, onPlayAgain }: Props) {
 
           <p className="text-sm text-white/60 mb-4">{prize.description}</p>
 
+          {prize.originalPrice && prize.finalPrice && (
+            <div className="mb-4">
+              <p className="text-base text-white/50 line-through">{prize.originalPrice}</p>
+              <p
+                className="text-3xl font-black text-[#fede3e]"
+                style={{ fontFamily: "'Red Hat Display', sans-serif" }}
+              >
+                {prize.finalPrice}
+              </p>
+            </div>
+          )}
+
           <div
             className="rounded-xl px-4 py-3 text-sm font-bold text-[#2D3436]"
             style={{ background: "#fede3e" }}

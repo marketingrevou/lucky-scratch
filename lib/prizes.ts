@@ -5,6 +5,9 @@ export type Prize = {
   description: string;
   /** Relative chance of being drawn, expressed in percent. 0 = disabled. */
   weight: number;
+  /** Program price before/after discount, shown as a strikethrough → final price. */
+  originalPrice?: string;
+  finalPrice?: string;
 };
 
 export const PRIZES: Prize[] = [
@@ -31,27 +34,39 @@ export const PRIZES: Prize[] = [
   },
 ];
 
+export const DA_PRIZES: Prize[] = [
+  {
+    id: "da-diskon-4jt",
+    label: "Diskon Rp 4.000.000",
+    emoji: "🏆",
+    description: "Potongan biaya program Data Analytics",
+    weight: 100,
+    originalPrice: "Rp 20.999.000",
+    finalPrice: "Rp 16.999.000",
+  },
+];
+
+export const DM_PRIZES: Prize[] = [
+  {
+    id: "dm-diskon-4jt",
+    label: "Diskon Rp 4.000.000",
+    emoji: "🏆",
+    description: "Potongan biaya program Digital Marketing",
+    weight: 100,
+    originalPrice: "Rp 17.999.000",
+    finalPrice: "Rp 13.999.000",
+  },
+];
+
 export const SWE_PRIZES: Prize[] = [
   {
-    id: "swe-diskon-2jt",
-    label: "Diskon Rp 2.000.000",
+    id: "swe-diskon-5500rb",
+    label: "Diskon Rp 5.500.000",
     emoji: "🏆",
-    description: "Potongan terbesar untuk program Software Engineering!",
-    weight: 5,
-  },
-  {
-    id: "swe-diskon-1500rb",
-    label: "Diskon Rp 1.500.000",
-    emoji: "💰",
     description: "Potongan biaya program Software Engineering",
-    weight: 95,
-  },
-  {
-    id: "swe-diskon-1jt",
-    label: "Diskon Rp 1.000.000",
-    emoji: "🎟️",
-    description: "Potongan biaya program Software Engineering",
-    weight: 0,
+    weight: 100,
+    originalPrice: "Rp 22.500.000",
+    finalPrice: "Rp 17.000.000",
   },
 ];
 
@@ -68,10 +83,15 @@ function pickWeighted(prizes: Prize[]): Prize {
   return pool[pool.length - 1];
 }
 
-export function selectPrize(): Prize {
-  return pickWeighted(PRIZES);
-}
+export type Variant = "default" | "da" | "dm" | "swe";
 
-export function selectSWEPrize(): Prize {
-  return pickWeighted(SWE_PRIZES);
+const PRIZES_BY_VARIANT: Record<Variant, Prize[]> = {
+  default: PRIZES,
+  da: DA_PRIZES,
+  dm: DM_PRIZES,
+  swe: SWE_PRIZES,
+};
+
+export function selectPrize(variant: Variant = "default"): Prize {
+  return pickWeighted(PRIZES_BY_VARIANT[variant]);
 }

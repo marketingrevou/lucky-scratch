@@ -143,7 +143,15 @@ export default function ScratchCard({ prize, onRevealed, onScratchStart, onScrat
         >
           {prize.label}
         </p>
-        <p className="text-xs text-[#2D3436]/60 text-center px-4">{prize.description}</p>
+        {prize.originalPrice && prize.finalPrice ? (
+          <p className="text-xs text-center px-4 text-[#2D3436]">
+            <span className="line-through text-[#2D3436]/50">{prize.originalPrice}</span>
+            {" → "}
+            <span className="font-black">{prize.finalPrice}</span>
+          </p>
+        ) : (
+          <p className="text-xs text-[#2D3436]/60 text-center px-4">{prize.description}</p>
+        )}
       </div>
 
       {/* Gold foil canvas (on top) */}

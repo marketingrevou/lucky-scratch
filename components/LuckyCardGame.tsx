@@ -9,17 +9,13 @@ import UserInfoForm from "@/components/UserInfoForm";
 import CardGrid from "@/components/CardGrid";
 import ScratchCard from "@/components/ScratchCard";
 import PrizeReveal from "@/components/PrizeReveal";
-import { selectPrize, selectSWEPrize, type Prize } from "@/lib/prizes";
+import { selectPrize, type Prize, type Variant } from "@/lib/prizes";
 
 type Stage = "form" | "cards" | "scratch" | "reveal";
 
 type Props = {
-  variant?: "default" | "swe";
+  variant?: Variant;
 };
-
-function pickPrize(variant: "default" | "swe"): Prize {
-  return variant === "swe" ? selectSWEPrize() : selectPrize();
-}
 
 export default function LuckyCardGame({ variant = "default" }: Props) {
   const [stage, setStage] = useState<Stage>("form");
@@ -49,7 +45,7 @@ export default function LuckyCardGame({ variant = "default" }: Props) {
   function handleCardSelect(index: number) {
     if (selectedCard !== null) return;
     playCardSelect();
-    const won = pickPrize(variant);
+    const won = selectPrize(variant);
     setPrize(won);
     setSelectedCard(index);
     setTimeout(() => setStage("scratch"), 700);
